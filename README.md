@@ -1,0 +1,2 @@
+# science_and_technology_lecture
+科学技術表現の授業で使用したスライドです。
