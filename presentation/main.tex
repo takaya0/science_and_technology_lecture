@@ -44,6 +44,46 @@
 \newcommand{\argmax}{\mathop{\rm arg~max}\limits}
 \newcommand{\argmin}{\mathop{\rm arg~min}\limits}
 
+
+
+%---------------数理最適化--------------
+\newcounter{mpproblem}[section]
+\renewcommand{\thempproblem}{\thesection.\arabic{mpproblem}}
+\makeatletter
+\newenvironment{mpproblem}[1]%
+{%
+    \protected@edef\@currentlabelname{#1}%
+    \par\vspace{\baselineskip}\noindent%
+    \ifx#1\empty %
+    \else \refstepcounter{mpproblem}$($#1$)$ %
+    \fi%
+    \hfill%
+    $\left|%
+    \hfill%
+    \hspace{0.00\textwidth}%
+    \@fleqntrue\@mathmargin\parindent%
+    \begin{minipage}{0.86\textwidth}%
+    \vspace{-1.0\baselineskip}%
+}%
+{%
+    \end{minipage}%
+    \@fleqnfalse%
+    \right.$%
+    \par\vspace{\baselineskip}\noindent%
+    \ignorespacesafterend%
+}%
+\makeatother
+\newcommand{\mpprobref}[1]{$($\nameref{#1}$)$}
+\newenvironment{mpproblem*}%
+{%
+    \begin{mpproblem}{}%
+}%
+{%
+    \end{mpproblem}%
+    \ignorespacesafterend%
+}
+%-----------------------------------
+
 \title{Optimization Algorithms on Riemannian Manifold}
 \author{小泉孝弥}
 \institute{立命館大学大学院 修士2年}
@@ -88,16 +128,27 @@
         \begin{exam}[Stiefel Manifold]
             $X = [x_1x_2\cdot x_p]\in\R^{n\times p}(n\geq p)$で, $\{x_i\}_{i = 1}^p$が正規直交系であるような
             $n\times p$行列全体は可微分多様体となる. この多様体をシュティーフェル多様体(Stiefel Manifold)といい, 
-            $\mathrm{St}(p, n)$と表す. すなわち
+            $\operatorname{St}(p, n)$と表す. すなわち
             \begin{align*}
-                \mathrm{St}(p, n) = \{X\in\R^{n\times p}\mid X^{\top}X = \mathbb{I}_{p}\}.
+                \operatorname{St}(p, n) = \{X\in\R^{n\times p}\mid X^{\top}X = \mathbb{I}_{p}\}.
             \end{align*}
             である.
         \end{exam}
     \end{frame}
 
     \begin{frame}\frametitle{}
-      $X\in\mathrm{St}(p, n)$
+        $X\in\operatorname{St}(p, n)$での接空間$T_{X}St(p, n)$は, 
+        \begin{align*}
+            T_{X} \operatorname{St}(p, n)&=\left\{Z \in \mathbb{R}^{n \times p}\mid X^{T} Z+Z^{T} X=0\right\}\\
+                                         &= \left\{X \Omega+X_{\perp} K\mid \Omega\in\operatorname{Skew}(p), K \in \mathbb{R}^{(n-p) \times p}\right\}
+        \end{align*}
+        となる. ここで$\operatorname{Skew}(p) = \{\Omega\in\R^{p\times p}\mid \Omega^{\top} = -\Omega\}$であり, 
+        $X_{\perp}$は$\operatorname{span}(X)^{\perp} = \operatorname{span}(X_{\perp})$を満たす$n\times (n - p)$行列である.
+        $g_{X} : T_{X}\operatorname{St}(p, n)\times T_{X}\operatorname{St}(p, n)\to\R$を,
+        \begin{align*}
+            g_{X}(\xi, \eta) = \operatorname{tr}(\xi^{\top} \eta)
+        \end{align*}
+        と定めれば, $g_{X}$は内積となるので, $\operatorname{St}(p, n)$はリーマン多様体である. 
     \end{frame}
 
     
@@ -108,4 +159,13 @@
     \section{Numerical Experiments}
     \subsection{Minimation of quadratic form}
     \subsection{Minimation of Brocket cost function}
+
+    \section*{References}
+    \begin{frame}\frametitle{References}
+        \begin{thebibliography}{9}
+            \beamertemplatetextbibitems
+            \bibitem{absil} P.-A. ABSIL, R. MAHONY, AND R. SEPULCHRE, Optimization Algorithms on Matrix Manifolds, 
+                       Princeton University Press, Princeton, NJ, 2008.
+	    \end{thebibliography}
+    \end{frame}
 \end{document}
