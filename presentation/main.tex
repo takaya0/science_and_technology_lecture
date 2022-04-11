@@ -1,0 +1,111 @@
+\documentclass[dvipdfmx,11pt]{beamer}		% for my notebook computer and my Mac computer
+%\documentclass[11pt]{beamer}			% for overleaf
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+%\usepackage{amsthm}
+\usepackage{multicol}
+\usepackage{listings}
+\usepackage{otf}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{tikz}
+\usepackage{mathtools}
+\usepackage{comment}
+\usetheme{Berlin}	%全体のデザイン
+
+\useoutertheme[subsection=false]{smoothbars}	%デザインのカスタマイズ
+
+\setbeamertemplate{navigation symbols}{}	%右下のちっちゃいナビゲーション記号を非表示
+
+\AtBeginSubsection[]	%サブセクションごとに目次を表示
+{\begin{frame}{Contents}
+    \begin{multicols}{2}
+        \tableofcontents[currentsubsection]
+    \end{multicols}
+\end{frame}}
+\newtheorem{defi}{Definition}
+\newtheorem{thm}[defi]{Theorem}
+\newtheorem{prop}[defi]{Proposition}
+\newtheorem{conj}[defi]{Conjecture}
+\newtheorem{exam}[defi]{Example}
+\newtheorem{prob}[defi]{Problem}
+\newtheorem{set}[defi]{Setting}
+\newtheorem{claim}[defi]{Claim}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\Y}{\mathcal{Y}}
+
+\newcommand{\tpm}{T_xM}
+
+
+\newcommand{\argmax}{\mathop{\rm arg~max}\limits}
+\newcommand{\argmin}{\mathop{\rm arg~min}\limits}
+
+\title{Optimization Algorithms on Riemannian Manifold}
+\author{小泉孝弥}
+\institute{立命館大学大学院 修士2年}
+\date{\today}
+\begin{document}
+    \begin{frame}\frametitle{}
+        \titlepage
+    \end{frame}
+
+    \section{Riemmannian Manifold and Examples}
+    \subsection{Definiton and Gradient}
+    \begin{frame}\frametitle{Riemmannian Manifold}
+        \begin{defi}[Riemmannian Manifold]
+            $M$を可微分多様体とする. 任意の接空間$\tpm$に内積$g : \tpm\times\tpm\to\R$が定まっているとき, 
+            組$(M, g)$をリーマン多様体(Riemmannian Manifold)といい, $g$をリーマン計量と呼ぶ.
+        \end{defi}
+        \begin{defi}[Gradient]
+            $(M, g)$をリーマン多様体とし, $f:M\to\R$を可微分写像とする. $x\in M$について
+            \begin{align*}
+                \forall\xi\in\tpm, g(\mathrm{grad}f(x), \xi) = Df(x)[\xi]
+            \end{align*}
+            を満たす一意な$\mathrm{grad}f(x)\in\tpm$を$f$の$x$での
+            勾配(Gradient)と呼ぶ.
+        \end{defi}
+    \end{frame}
+    \subsection{Examples}
+    \begin{frame}\frametitle{Sphere}
+        \begin{exam}[Sphere]
+            自然数$n\geq2$に対して, 球面$S^{n - 1}\coloneqq\{x\in\R^n\mid x^{\top}z = 0\}$
+            は可微分多様体となる. また, $x\in S^{n - 1}$での接空間$T_xS^{n-1}$は
+            \begin{align*}
+                T_xS^{n - 1} = \{z\in\R^n\mid x^{\top}z = 0\}
+            \end{align*}
+            となる. ここで, $g_x : T_xS^{n - 1}\times T_xS^{n - 1}\to\R$を
+            \begin{align*}
+                g_x(\xi, \eta) = \xi^{\top}\eta
+            \end{align*}
+            と定めれば, $g_x$は$T_xS^{n-1}$の内積となるので, $S^{n - 1}$はリーマン多様体である.
+        \end{exam}
+    \end{frame}
+    \begin{frame}\frametitle{Stiefel Manifold}
+        \begin{exam}[Stiefel Manifold]
+            $X = [x_1x_2\cdot x_p]\in\R^{n\times p}(n\geq p)$で, $\{x_i\}_{i = 1}^p$が正規直交系であるような
+            $n\times p$行列全体は可微分多様体となる. この多様体をシュティーフェル多様体(Stiefel Manifold)といい, 
+            $\mathrm{St}(p, n)$と表す. すなわち
+            \begin{align*}
+                \mathrm{St}(p, n) = \{X\in\R^{n\times p}\mid X^{\top}X = \mathbb{I}_{p}\}.
+            \end{align*}
+            である.
+        \end{exam}
+    \end{frame}
+
+    \begin{frame}\frametitle{}
+      $X\in\mathrm{St}(p, n)$
+    \end{frame}
+
+    
+   
+    \section{Extension to Riemannian Manifold}
+    \subsection{Retraction}
+    \subsection{Riemannian Gradient Decent Method}
+    \section{Numerical Experiments}
+    \subsection{Minimation of quadratic form}
+    \subsection{Minimation of Brocket cost function}
+\end{document}
