@@ -96,14 +96,15 @@
     \section{Introduction}
     \begin{frame}
         \frametitle{Introduction}
-        本,発表では制約空間がリーマン多様体となっている非線形連続最適化問題を扱う. 
+        本発表では制約空間$M$がリーマン多様体となっている非線形連続最小化問題を扱う. すなわち, 
+        関数$f : \R^n\to\R$が与えられたとき, 
         \begin{mpproblem*}
             \begin{alignat*}{2}
                 &\text{minimize}   & f(x)  \\
                 &\text{subject to } & x\in M  
             \end{alignat*}
         \end{mpproblem*}
-        制約空間がリーマン多様体となっている場合, $f$を$M$に制限することで, 制約なしの問題と考えることができる. 
+        制約空間$M$がリーマン多様体となっている場合, $f$を$M$に制限することで, 制約なしの問題と考えることができる. 
         今回は, 勾配降下法をリーマン多様体上に拡張し, 数値計算を行なった結果を報告する.
     \end{frame}
 
@@ -111,7 +112,7 @@
     \subsection{Definiton and Gradient}
     \begin{frame}\frametitle{Riemmannian Manifold}
         \begin{defi}[Riemmannian Manifold]
-            $M$を可微分多様体とする. 任意の接空間$\tpm$に内積$g : \tpm\times\tpm\to\R$が定まっているとき, 
+            $M$を可微分多様体とする. 各点$x\in M$の接空間$\tpm$に内積$g_x : \tpm\times\tpm\to\R$が定まっているとき, 
             組$(M, g)$をリーマン多様体(Riemmannian Manifold)といい, $g$をリーマン計量と呼ぶ.
         \end{defi}
         \begin{defi}[Gradient]
@@ -140,7 +141,7 @@
     \end{frame}
     \begin{frame}\frametitle{Stiefel Manifold}
         \begin{exam}[Stiefel Manifold]
-            $X = [x_1x_2\cdot x_p]\in\R^{n\times p}(n\geq p)$で, $\{x_i\}_{i = 1}^p$が正規直交系であるような
+            $X = [x_1x_2\cdots x_p]\in\R^{n\times p}(n\geq p)$で, $\{x_i\}_{i = 1}^p$が正規直交系であるような
             $n\times p$行列全体は可微分多様体となる. この多様体をシュティーフェル多様体(Stiefel Manifold)といい, 
             $\operatorname{St}(p, n)$と表す. すなわち
             \begin{align*}
@@ -180,11 +181,10 @@
     \end{frame}
     \subsection{Retraction}
     \begin{frame}\frametitle{Retraction}
-        リーマン多様体$M$に対して, 接束を$\displaystyle TM = \bigcup_{x\in M}\tpm$と表し, 
-        $R : TM\to M$の$\tpm$への制限を$R_x : \tpm\to M$と表す.
+        リーマン多様体$M$に対して, 接束を$\displaystyle TM = \bigcup_{x\in M}\tpm$と表す.
         \begin{defi}[Retraction]
-            $M$をリーマン多様体, $R : TM\to M$を$C^\infty$関数とする. 
-            任意の$x\in M$に対して, $R_x : \tpm\to M$が以下の2つの条件を満たすとき, $R$
+            $M$をリーマン多様体, $R : TM\to M$を$C^\infty$写像とする. 
+            任意の$x\in M$に対して, $R$の$\tpm$への制限$R_x : \tpm\to M$が以下の2つの条件を満たすとき, $R$
             を$M$上のレトラクション(Retraction)と呼ぶ.
             \begin{enumerate}
                 \item $R_x(0_x) = x$
@@ -192,6 +192,7 @@
             \end{enumerate}
         \end{defi}
     \end{frame}
+
 
     \subsection{Riemannian Gradient Decent Method}
     
@@ -212,7 +213,39 @@
         \end{algorithm}
     \end{frame}
     \section{Numerical Experiments}
+    
     \subsection{Minimation of quadratic form}
+    \begin{frame}
+        \frametitle{二次形式の最小化}
+        \begin{block}{二次形式の最小化問題}
+            $A\in\R^{n\times n}$を対称行列とする. 
+            \begin{mpproblem*}
+                \begin{alignat*}{2}
+                    &\text{minimize}   & q_A(x) = x^{\top}Ax  \\
+                    &\text{subject to } & x\in S^{n - 1}  
+                \end{alignat*}
+            \end{mpproblem*}
+        \end{block}
+        なお, $\displaystyle \min_{x\in S^{n - 1}} q_A(x)$は$A$の最小固有値, $\argmin_{x\in S^{n - 1}}q_A(x)$は最小固有値に対する固有ベクトル
+        となる.
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Result}
+        \begin{figure}[b]
+            \begin{tabular}{c}
+                \begin{minipage}{0.55\hsize}
+                    \centering
+                    \caption{n = 1000}
+                    \includegraphics[width = 6.3cm]{../Images/quad_1000.png}
+                \end{minipage}
+                \begin{minipage}{0.45\hsize}
+                    \centering
+                    \includegraphics[width = 5.5cm]{../Images/quad_5000.png}
+                \end{minipage}
+            \end{tabular}   
+        \end{figure}  
+    \end{frame}
     \subsection{Minimation of Brocket cost function}
 
     \section*{References}
