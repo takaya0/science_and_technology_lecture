@@ -33,13 +33,14 @@ def RayleighQuotientsOptimization(N):
 
 
 def main():
-    losses, times = RayleighQuotientsOptimization(N=5000)
+    N = 1000
+    losses, times = RayleighQuotientsOptimization(N)
     index = np.arange(1, len(losses) + 1)
     plt.plot(index, losses)
     plt.xlabel('Iterations')
     plt.ylabel('function value')
 
-    plt.savefig(image_path + 'quad_5000.png')
+    plt.savefig(image_path + 'quad_' + str(N) + 'png')
 
 
 if __name__ == "__main__":
