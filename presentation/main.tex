@@ -18,7 +18,7 @@
 
 \setbeamertemplate{navigation symbols}{}	%右下のちっちゃいナビゲーション記号を非表示
 
-\AtBeginSubsection[]	%サブセクションごとに目次を表示
+\AtBeginSection[]	%サブセクションごとに目次を表示
 {\begin{frame}{Contents}
     \begin{multicols}{2}
         \tableofcontents[currentsubsection]
@@ -93,6 +93,20 @@
         \titlepage
     \end{frame}
 
+    \section{Introduction}
+    \begin{frame}
+        \frametitle{Introduction}
+        本,発表では制約空間がリーマン多様体となっている非線形連続最適化問題を扱う. 
+        \begin{mpproblem*}
+            \begin{alignat*}{2}
+                &\text{minimize}   & f(x)  \\
+                &\text{subject to } & x\in M  
+            \end{alignat*}
+        \end{mpproblem*}
+        制約空間がリーマン多様体となっている場合, $f$を$M$に制限することで, 制約なしの問題と考えることができる. 
+        今回は, 勾配降下法をリーマン多様体上に拡張し, 数値計算を行なった結果を報告する.
+    \end{frame}
+
     \section{Riemmannian Manifold and Examples}
     \subsection{Definiton and Gradient}
     \begin{frame}\frametitle{Riemmannian Manifold}
@@ -154,8 +168,49 @@
     
    
     \section{Extension to Riemannian Manifold}
+
+    \begin{frame}\frametitle{issue of extension}
+        例として、勾配降下法をリーマン多様体に拡張する. その際に, 勾配の部分をリーマン多様体上の勾配に変更
+        するだけでは, リーマン多様体からはみ出てしまうため, 制約条件を満たすことが出来ない. そこで, はみ出てしまった点を
+        リーマン多様体に戻す写像を考えることで, 制約を満たす点列$\{x_k\}$を得ることができる.
+        \begin{figure}
+            \centering
+            \includegraphics[width = 5.5cm]{../Images/grad_image.png}
+        \end{figure}
+    \end{frame}
     \subsection{Retraction}
+    \begin{frame}\frametitle{Retraction}
+        リーマン多様体$M$に対して, 接束を$\displaystyle TM = \bigcup_{x\in M}\tpm$と表し, 
+        $R : TM\to M$の$\tpm$への制限を$R_x : \tpm\to M$と表す.
+        \begin{defi}[Retraction]
+            $M$をリーマン多様体, $R : TM\to M$を$C^\infty$関数とする. 
+            任意の$x\in M$に対して, $R_x : \tpm\to M$が以下の2つの条件を満たすとき, $R$
+            を$M$上のレトラクション(Retraction)と呼ぶ.
+            \begin{enumerate}
+                \item $R_x(0_x) = x$
+                \item $DR_x(0_x) = id_{\tpm}$
+            \end{enumerate}
+        \end{defi}
+    \end{frame}
+
     \subsection{Riemannian Gradient Decent Method}
+    
+    \begin{frame}\frametitle{Riemannian Gradient Decent}
+        $M$をリーマン多様体, $R : TM\to M$をレトラクションとする.
+        リーマン多様体上の勾配降下法(RGD)を以下のように設計する.
+        \begin{algorithm}[H]
+            \caption{Riemannian Gradient Decent(RGD)}
+            \begin{algorithmic}
+                \REQUIRE $f$: differentiable function on $M$
+                \REQUIRE $0< t <1$ : 
+                \STATE $x\leftarrow x_{0}\in M$
+                \WHILE{$x$ not converged} 
+                \STATE $x\leftarrow R_x(x - t~\mathrm{grad} f(x))$ 
+                \ENDWHILE
+                \RETURN $x$
+            \end{algorithmic}
+        \end{algorithm}
+    \end{frame}
     \section{Numerical Experiments}
     \subsection{Minimation of quadratic form}
     \subsection{Minimation of Brocket cost function}
