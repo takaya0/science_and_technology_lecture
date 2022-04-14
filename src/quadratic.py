@@ -7,14 +7,16 @@ import autograd.numpy as np
 
 import time
 
-from utils import get_random_sym_matrix
+#from utils import get_random_sym_matrix
 
 image_path = '../Images/'
 
 
 def RayleighQuotientsOptimization(N):
 
-    A = get_random_sym_matrix(N)
+    #A = get_random_sym_matrix(N)
+
+    A = np.diag([n + 1 for n in range(0, N)])
 
     def cost(x):
         retval = np.dot(x.T, np.dot(A, x))
@@ -33,14 +35,15 @@ def RayleighQuotientsOptimization(N):
 
 
 def main():
-    N = 1000
+    N = 10000
     losses, times = RayleighQuotientsOptimization(N)
+    losses = losses[0:100]
     index = np.arange(1, len(losses) + 1)
     plt.plot(index, losses)
     plt.xlabel('Iterations')
     plt.ylabel('function value')
 
-    plt.savefig(image_path + 'quad_' + str(N) + 'png')
+    plt.savefig(image_path + 'quad_' + str(N) + '.png')
 
 
 if __name__ == "__main__":

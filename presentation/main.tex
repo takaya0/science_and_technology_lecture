@@ -84,7 +84,7 @@
 }
 %-----------------------------------
 
-\title{Optimization Algorithms on Riemannian Manifold}
+\title{Optimization Algorithm on Riemannian Manifolds}
 \author{小泉孝弥}
 \institute{立命館大学大学院 修士2年}
 \date{\today}
@@ -113,15 +113,14 @@
     \begin{frame}\frametitle{Riemmannian Manifold}
         \begin{defi}[Riemmannian Manifold]
             $M$を可微分多様体とする. 各点$x\in M$の接空間$\tpm$に内積$g_x : \tpm\times\tpm\to\R$が定まっているとき, 
-            組$(M, g)$をリーマン多様体(Riemmannian Manifold)といい, $g$をリーマン計量と呼ぶ.
+            $g = (f_x)_{x\in M}$をリーマン計量と呼び, 組$(M, g)$をリーマン多様体(Riemmannian Manifold)という.
         \end{defi}
         \begin{defi}[Gradient]
-            $(M, g)$をリーマン多様体とし, $f:M\to\R$を可微分写像とする. $x\in M$について
+            $(M, g)$をリーマン多様体とし, $f:M\to\R$を可微分関数とする. $x\in M$について
+            $f$の$x$での勾配$\mathrm{grad}f(x)\in\tpm$を以下で定める.
             \begin{align*}
                 \forall\xi\in\tpm, g(\mathrm{grad}f(x), \xi) = Df(x)[\xi]
             \end{align*}
-            を満たす一意な$\mathrm{grad}f(x)\in\tpm$を$f$の$x$での
-            勾配(Gradient)と呼ぶ.
         \end{defi}
     \end{frame}
     \subsection{Examples}
@@ -141,7 +140,7 @@
     \end{frame}
     \begin{frame}\frametitle{Stiefel Manifold}
         \begin{exam}[Stiefel Manifold]
-            $X = [x_1x_2\cdots x_p]\in\R^{n\times p}(n\geq p)$で, $\{x_i\}_{i = 1}^p$が正規直交系であるような
+            $X = [x_1x_2\ldots x_p]\in\R^{n\times p}(n\geq p)$で, $\{x_i\}_{i = 1}^p\subset\R^n$が正規直交系であるような
             $n\times p$行列全体は可微分多様体となる. この多様体をシュティーフェル多様体(Stiefel Manifold)といい, 
             $\operatorname{St}(p, n)$と表す. すなわち
             \begin{align*}
@@ -170,15 +169,49 @@
    
     \section{Extension to Riemannian Manifold}
 
-    \begin{frame}\frametitle{issue of extension}
-        例として、勾配降下法をリーマン多様体に拡張する. その際に, 勾配の部分をリーマン多様体上の勾配に変更
+    \begin{frame}
+
+        \frametitle{Gradient Decent}
+        \begin{algorithm}[H]
+            \caption{Gradient Decent(GD)}
+            \begin{algorithmic}
+                \REQUIRE $f$: differentiable function on $\R^{n}$
+                \REQUIRE $0< t <1$ : 
+                \STATE $x\leftarrow x_{0}\in\R^n$
+                \WHILE{$x$ not converged} 
+                \STATE $x\leftarrow x - t~\mathrm{grad}_{\R^n} f(x)\in\R^n$ 
+                \ENDWHILE
+                \RETURN $x$
+            \end{algorithmic}
+        \end{algorithm}
+    \end{frame}
+    \begin{frame}\frametitle{Motivation}
+        勾配降下法を制約空間がユークリッド空間に埋め込まれたリーマン部分多様体に拡張する. その際に, 勾配の部分をリーマン多様体上の勾配に変更
         するだけでは, リーマン多様体からはみ出てしまうため, 制約条件を満たすことが出来ない. そこで, はみ出てしまった点を
         リーマン多様体に戻す写像を考えることで, 制約を満たす点列$\{x_k\}$を得ることができる.
         \begin{figure}
             \centering
-            \includegraphics[width = 5.5cm]{../Images/grad_image.png}
+            \includegraphics[width = 5.5cm]{../Images/retraction_flow.png}
         \end{figure}
     \end{frame}
+
+    \begin{frame}
+
+        \frametitle{Gradient Decent}
+        \begin{algorithm}[H]
+            \caption{Gradient Decent(GD)}
+            \begin{algorithmic}
+                \REQUIRE $f$: differentiable function on $\R^{n}$
+                \REQUIRE $0< t <1$ : 
+                \STATE $x\leftarrow x_{0}\in M$
+                \WHILE{$x$ not converged} 
+                \STATE $x\leftarrow x - t~\mathrm{grad} f(x){\color{red}\notin M}$ 
+                \ENDWHILE
+                \RETURN $x$
+            \end{algorithmic}
+        \end{algorithm}
+    \end{frame}
+
     \subsection{Retraction}
     \begin{frame}\frametitle{Retraction}
         リーマン多様体$M$に対して, 接束を$\displaystyle TM = \bigcup_{x\in M}\tpm$と表す.
@@ -206,7 +239,7 @@
                 \REQUIRE $0< t <1$ : 
                 \STATE $x\leftarrow x_{0}\in M$
                 \WHILE{$x$ not converged} 
-                \STATE $x\leftarrow R_x(x - t~\mathrm{grad} f(x))$ 
+                \STATE $x\leftarrow R_x(-t~\mathrm{grad} f(x))$ 
                 \ENDWHILE
                 \RETURN $x$
             \end{algorithmic}
@@ -232,22 +265,25 @@
 
     \begin{frame}
         \frametitle{Result}
+        レトラクション$R$以下で定義する. 
+        \begin{align*}
+            R_x(\xi) = \frac{x + \xi}{\|x + \xi\|}
+        \end{align*} 
         \begin{figure}[b]
             \begin{tabular}{c}
                 \begin{minipage}{0.55\hsize}
                     \centering
-                    \caption{n = 1000}
-                    \includegraphics[width = 5.0cm]{../Images/quad_1000.png}
+                    \caption{n = 100}
+                    \includegraphics[width = 5.0cm]{../Images/quad_100.png}
                 \end{minipage}
                 \begin{minipage}{0.45\hsize}
                     \centering
-                    \caption{n = 5000}
-                    \includegraphics[width = 5.0cm]{../Images/quad_5000.png}
+                    \caption{n = 2000}
+                    \includegraphics[width = 5.0cm]{../Images/quad_2000.png}
                 \end{minipage}
             \end{tabular}   
         \end{figure}  
     \end{frame}
-    \subsection{Minimation of Brocket cost function}
 
     \section*{References}
     \begin{frame}\frametitle{References}
