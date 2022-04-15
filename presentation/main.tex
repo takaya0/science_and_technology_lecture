@@ -126,7 +126,7 @@
     \subsection{Examples}
     \begin{frame}\frametitle{Sphere}
         \begin{exam}[Sphere]
-            自然数$n\geq2$に対して, 球面$S^{n - 1}\coloneqq\{x\in\R^n\mid x^{\top}z = 0\}$
+            自然数$n\geq2$に対して, 球面$S^{n - 1}\coloneqq\{x\in\R^n\mid\|x\| = 1\}$
             は可微分多様体となる. また, $x\in S^{n - 1}$での接空間$T_xS^{n-1}$は
             \begin{align*}
                 T_xS^{n - 1} = \{z\in\R^n\mid x^{\top}z = 0\}
@@ -265,7 +265,7 @@
 
     \begin{frame}
         \frametitle{Result}
-        レトラクション$R$以下で定義する. 
+        レトラクション$R$を以下で定義する. 
         \begin{align*}
             R_x(\xi) = \frac{x + \xi}{\|x + \xi\|}
         \end{align*} 
@@ -283,6 +283,28 @@
                 \end{minipage}
             \end{tabular}   
         \end{figure}  
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Brocket costの最小化}
+        \begin{block}{Brocket cost minimization}
+            $C\in\R^{n\times n}$を対称行列, $N = \mathrm{diag}(\mu_1, \mu_2, \ldots, \mu_p)$とする(ただし, $0 < \mu_1 <\mu_2 < \cdots < \mu_p$). 
+            \begin{mpproblem*}
+                \begin{alignat*}{2}
+                    &\text{minimize}   & \quad F(X) = - \operatorname{tr}(X^{\top}CXN)\\
+                    &\text{subject to} & \quad X\in\operatorname{St}(p, n)   
+                \end{alignat*}
+            \end{mpproblem*}
+        \end{block}
+        いわゆる主成分分析(PCA). $p = 1$の時は先程の問題とおなじになる.
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Result}
+        レトラクション$R_X$を以下で定義する.
+        \begin{align*}
+            R_X(\xi) \coloneqq \text{Q factor of QR decomposition of } (X + \xi)
+        \end{align*}
     \end{frame}
 
     \section*{References}
